@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useRegisterUserMutation } from "../services/authApi";
+import { useRegisterUserMutation } from "../../services/authApi";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../app/hooks";
-import { setUser } from "../features/authSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { setUser } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
   confirmPassword: ""
 };
 
-const Register = () => {
+const RegisterPage = () => {
   const [formValue, setFormValue] = useState(initialState);
   const { email, fullname, username, password, confirmPassword } = formValue;
   const dispatch = useAppDispatch();
@@ -48,13 +48,13 @@ const Register = () => {
       dispatch(setUser({ name: registerData.name, token: registerData.token }));
       navigate("/dashboard");
     }
-  }, [isRegisterSuccess, dispatch, navigate, registerData.name, registerData.token]);
+  }, [isRegisterSuccess]);
 
   useEffect(() => {
     if (isRegisterError) {
       toast.error((registerError as any).data.message);
     }
-  }, [isRegisterError, registerError]);
+  }, [isRegisterError]);
 
   return (
     <div>
@@ -103,4 +103,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

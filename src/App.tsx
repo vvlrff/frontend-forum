@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import Auth from './pages/Auth';
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import Register from './pages/Register';
+import AuthPage from './pages/AuthPage/AuthPage';
+import HomePage from './pages/HomePage/HomePage';
+import PostsPage from './pages/PostsPage/PostsPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 import Layout from './components/Layout';
 import { useAppDispatch } from './app/hooks';
 import { setUser } from "./features/authSlice";
@@ -11,10 +11,10 @@ import './App.css';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-    <Route index element={<Home />} />
-    <Route path='auth' element={<Auth />} />
-    <Route path='register' element={<Register />} />
-    <Route path='dashboard' element={<Dashboard />} />
+    <Route index element={<HomePage />} />
+    <Route path='auth' element={<AuthPage />} />
+    <Route path='register' element={<RegisterPage />} />
+    <Route path='posts' element={<PostsPage />} />
   </Route>
 ));
 
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setUser(user));
-  }, [dispatch, user]);
+  }, []);
 
   return (
     <RouterProvider router={router} />

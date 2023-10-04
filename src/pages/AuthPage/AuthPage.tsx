@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLoginUserMutation } from "../services/authApi";
+import { useLoginUserMutation } from "../../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
-import { setUser } from "../features/authSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { setUser } from "../../features/authSlice";
 
 const initialState = {
   email: "",
   password: ""
 };
 
-const Auth = () => {
+const AuthPage = () => {
   const [formValue, setFormValue] = useState(initialState);
 
   const { email, password } = formValue;
@@ -44,13 +44,13 @@ const Auth = () => {
       dispatch(setUser({ name: loginData.name, token: loginData.token }));
       navigate("/dashboard");
     }
-  }, [isLoginSuccess, loginData.name, loginData.token, dispatch, navigate]);
+  }, [isLoginSuccess]);
 
   useEffect(() => {
     if (isLoginError) {
       toast.error((loginError as any).data.message);
     }
-  }, [isLoginError, loginError]);
+  }, [isLoginError]);
 
   return (
     <div>
@@ -78,4 +78,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default AuthPage;
