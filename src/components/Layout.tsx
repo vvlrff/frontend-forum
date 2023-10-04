@@ -1,16 +1,16 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom';
 
 const Layout = () => {
   return (
     <>
       <header>
-        <Link to='/'>Home </Link>
-        <Link to='/auth'>Auth </Link>
-        <Link to='/register'>Register </Link>
+        <Link to='/'>Главная </Link>
+        <Link to='/auth'>Авторизироваться </Link>
+        <Link to='/register'>Зарегистрироваться </Link>
       </header>
       <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -1,43 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLoginUserMutation } from "../services/authApi";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
+import { setUser } from "../features/authSlice";
 
 const initialState = {
-    email: "",
-    password: ""
+  email: "",
+  password: ""
 };
 
 const Auth = () => {
-    const [formValue, setFormValue] = useState(initialState);
+  const [formValue, setFormValue] = useState(initialState);
 
-    const {email, password} = formValue;
+  const { email, password } = formValue;
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-    const handleChange = (e: any) => {
-        setFormValue({...formValue, [e.target.name]: e.target.value})
-    };
+  const [loginUser,
+    {
+      data: loginData,
+      isSuccess: isLoginSuccess,
+      isError: isLoginError,
+      error: loginError
+    }
+  ] = useLoginUserMutation();
 
-    return (
-        <div>
-            <h2>Регистрация</h2>
-            <section>
-                <input 
-                type="email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-                placeholder="Email"
-                />
-                <input 
-                type="password"
-                name="password"
-                value={password}
-                onChange={handleChange}
-                placeholder="Пароль"
-                />
-                <button type="button">
-                    Войти
-                </button>
-            </section>
-        </div>
-    );
+  const handleLogin = async () => {
+    if (email && password) {
+      await loginUser({ email, password });
+    } else {
+      toast.error("Заполните все поля ввода")
+    }
+  };
+
+  const handleChange = (e: any) => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (isLoginSuccess) {
+      toast.success("Пользователь успешно авторизирован");
+      dispatch(setUser({ name: loginData.name, token: loginData.token }));
+      navigate("/dashboard");
+    }
+  }, [isLoginSuccess, loginData.name, loginData.token, dispatch, navigate]);
+
+  useEffect(() => {
+    if (isLoginError) {
+      toast.error((loginError as any).data.message);
+    }
+  }, [isLoginError, loginError]);
+
+  return (
+    <div>
+      <h2>Авторизация</h2>
+      <section>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleChange}
+          placeholder="Email"
+        />
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={handleChange}
+          placeholder="Пароль"
+        />
+        <button type="button" onClick={() => handleLogin()}>
+          Войти
+        </button>
+      </section>
+    </div>
+  );
 };
 
 export default Auth;

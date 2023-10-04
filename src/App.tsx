@@ -1,14 +1,13 @@
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, Navigate } from 'react-router-dom';
-
+import { useEffect } from "react";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import Auth from './pages/Auth';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
-
 import Layout from './components/Layout';
-
+import { useAppDispatch } from './app/hooks';
+import { setUser } from "./features/authSlice";
 import './App.css';
-import Home from './pages/Home';
-
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
@@ -17,14 +16,19 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path='register' element={<Register />} />
     <Route path='dashboard' element={<Dashboard />} />
   </Route>
-))
+));
 
 function App() {
+  const dispatch = useAppDispatch();
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, [dispatch, user]);
+
   return (
-    // <AuthProvider>
-      <RouterProvider router={router} />
-    // </AuthProvider>
-  )
-}
+    <RouterProvider router={router} />
+  );
+};
 
 export default App;
