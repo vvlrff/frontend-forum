@@ -4,16 +4,24 @@ import { logout, selectAuth } from "../../features/authSlice";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { postApi, useCreatePostMutation } from "../../services/postApi";
+import PostItem from "../../components/PostItem";
+import { IPost } from "../../models/IPost";
 
 const PostsPage = () => {
   const {data: posts} = postApi.useGetAllPostsQuery(5);
 
-  // const { name } = useAppSelector(selectAuth);
+  const { email } = useAppSelector(selectAuth);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   // const [formValue, setFormValue] = useState(initialState);
 
   // const { name, text } = formValue;
-  // const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+
 
   // const [createPost,
   //   {
@@ -49,15 +57,27 @@ const PostsPage = () => {
   //   }
   // }, [isCreateError]);
 
-  // useEffect(() => {
-  //   if (name == null) {
-  //     navigate('/auth')
-  //   }
-  // }, [name])
+  useEffect(() => {
+    if (email == null) {
+      navigate('/auth')
+    }
+  }, [email])
 
   return (
     <div>
-      {/* <h2>Добавить пост</h2>
+      hellp {email}
+
+      <button type="button" onClick={() => handleLogout()}>
+        Logout
+      </button>
+
+      <div>
+        {posts && posts?.map((post) = > 
+          <PostItem post={post} />
+          )
+        }
+      </div>
+        {/* <h2>Добавить пост</h2>
       <section>
         <input
           type="text"

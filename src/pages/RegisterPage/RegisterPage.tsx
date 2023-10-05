@@ -45,8 +45,7 @@ const RegisterPage = () => {
   useEffect(() => {
     if (isRegisterSuccess) {
       toast.success("Пользователь успешно зарегистрирован");
-      dispatch(setUser({ name: registerData.name, token: registerData.token }));
-      navigate("/dashboard");
+      navigate("/auth");
     }
   }, [isRegisterSuccess]);
 

@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IPost } from "../models/IPost";
 
 export const postApi = createApi({
   reducerPath: "postApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:32768",
+    baseUrl: "http://localhost:8080",
   }),
   endpoints: (builder) => ({
-    getAllPosts: builder.query({
-      query: () => ({
+    getAllPosts: builder.query<IPost[], number>({
+      query: (limit: number) => ({
         url: "/api/post",
       })
     }),

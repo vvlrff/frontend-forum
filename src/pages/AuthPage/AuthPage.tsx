@@ -41,8 +41,8 @@ const AuthPage = () => {
   useEffect(() => {
     if (isLoginSuccess) {
       toast.success("Пользователь успешно авторизирован");
-      dispatch(setUser({ name: loginData.name, token: loginData.token }));
-      navigate("/dashboard");
+      dispatch(setUser({ email: loginData.email, accessToken: loginData.accessToken }));
+      navigate("/posts");
     }
   }, [isLoginSuccess]);
 

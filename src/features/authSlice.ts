@@ -2,39 +2,39 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 
 export interface AuthState {
-  name: string | null;
-  token: string | null;
+    email: string | null;
+    accessToken: string | null;
 };
 
 const initialState: AuthState = {
-  name: null,
-  token: null
+    email: null,
+    accessToken: null
 };
 
 export const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {
-    setUser: (
-      state,
-      action: PayloadAction<{ name: string, token: string }>
-    ) => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          name: action.payload.name,
-          token: action.payload.token
-        })
-      );
-      state.name = action.payload.name;
-      state.token = action.payload.token;
-    },
-    logout: (state) => {
-      localStorage.clear();
-      state.name = null;
-      state.token = null;
-    },
-  }
+    name: "auth",
+    initialState,
+    reducers: {
+        setUser: (
+            state,
+            action: PayloadAction<{ email: string, accessToken: string }>
+        ) => {
+            localStorage.setItem(
+                "user",
+                JSON.stringify({
+                    email: action.payload.email,
+                    accessToken: action.payload.accessToken
+                })
+            );
+            state.email = action.payload.email;
+            state.accessToken = action.payload.accessToken;
+        },
+        logout: (state) => {
+            localStorage.clear();
+            state.email = null;
+            state.accessToken = null;
+        },
+    }
 });
 
 export const selectAuth = (state: RootState) => state.auth;
