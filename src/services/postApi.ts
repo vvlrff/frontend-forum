@@ -6,24 +6,15 @@ export const postApi = createApi({
     baseUrl: "https://localhost:32768",
   }),
   endpoints: (builder) => ({
-    getPosts: builder.mutation({
-      query: (body: { title: string, text: string }) => {
-        return {
-          url: "/api/posts",
-          method: "get",
-          body,
-        }
-      }
+    getAllPosts: builder.query({
+      query: () => ({
+        url: "/api/post",
+      })
     }),
-    getPost: builder.mutation({
-      query: (body: { id: number }) => {
-        const id = body.id
-        return {
+    getPost: builder.query({
+      query: (id: string) => ({
           url: `/api/post/${id}`,
-          method: "get",
-          body,
-        }
-      }
+      })
     }),
     createPost: builder.mutation({
       query: (body: { title: string, text: string }) => {
@@ -47,4 +38,4 @@ export const postApi = createApi({
   }),
 });
 
-export const { useGetPostsMutation, useCreatePostMutation, useDeletePostMutation } = postApi;
+export const { useGetPostQuery, useGetAllPostsQuery, useCreatePostMutation, useDeletePostMutation } = postApi;
