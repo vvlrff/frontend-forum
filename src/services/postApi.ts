@@ -12,17 +12,17 @@ export const postApi = createApi({
         url: "/api/post",
       })
     }),
-    getPost: builder.query({
+    getPost: builder.query<IPost, string>({
       query: (id: string) => ({
           url: `/api/post/${id}`,
       })
     }),
-    createPost: builder.mutation({
-      query: (body: { title: string, text: string }) => {
+    createPost: builder.mutation<IPost, IPost>({
+      query: (post) => {
         return {
           url: "/api/post",
-          method: "post",
-          body,
+          method: "POST",
+          body: post
         }
       }
     }),

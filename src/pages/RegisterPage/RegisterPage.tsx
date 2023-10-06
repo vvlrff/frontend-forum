@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRegisterUserMutation } from "../../services/authApi";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "../../app/hooks";
-import { setUser } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const initialState = {
@@ -16,12 +14,10 @@ const initialState = {
 const RegisterPage = () => {
   const [formValue, setFormValue] = useState(initialState);
   const { email, fullname, username, password, confirmPassword } = formValue;
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [registerUser,
     {
-      data: registerData,
       isSuccess: isRegisterSuccess,
       isError: isRegisterError,
       error: registerError
