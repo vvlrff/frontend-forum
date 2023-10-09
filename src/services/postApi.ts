@@ -1,10 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IPost } from "../models/IPost";
+import { setUser } from "../features/authSlice";
 
 export const postApi = createApi({
   reducerPath: "postApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080",
+    baseUrl: "https://localhost:7084",
+    prepareHeaders: (headers, { getState }) => {
+      const token = JSON.parse(localStorage.getItem('user') || '{}')?.accessToken;
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getAllPosts: builder.query<IPost[], number>({
@@ -14,7 +22,7 @@ export const postApi = createApi({
     }),
     getPost: builder.query<IPost, string>({
       query: (id: string) => ({
-          url: `/api/post/${id}`,
+        url: `/api/post/${id}`,
       })
     }),
     createPost: builder.mutation<IPost, IPost>({
